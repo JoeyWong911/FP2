@@ -1,52 +1,72 @@
 # Final Project Assignment 2: Explore One More! (FP2) 
 DUE March 30, 2015 Monday (2015-03-30)
 
-This is just like FP1, but where you do a different library. (Full description of FP1 is [on Piazza.][piazza])
+### My Library: racket/draw
 
-During this assignment, you should start looking for teammates. See the project schedule [on Piazza.][schedule]
+I chose the draw library from racket because it makes sense to extend from gui to here, I can combine them for the final project.
 
-Write your report right in this file. Instructions are below. You can delete them if you like, or just leave them at the bottom.
-You are allowed to change/delete anything in this file to make it into your report. It will be public.
+I follwed a tutorial of how to use basic tools to creat lines, rectangles, pen and brush, colors, text and such. Used only procedure to create a picture of a little face and a sun, with caption "OPL is fun!"
 
-This file is formatted with the [**markdown** language][markdown], so take a glance at how that works.
+I learned basic techniques of making pictures out of codes. 
 
-This file IS your report for the assignment, including code and your story.
-
-Code is super easy in markdown, which you can easily do inline `(require net/url)` or do in whole blocks:
 ```
 #lang racket
 
-(require net/url)
+(require racket/draw)
+(require racket/math)
+
+
+(define target (make-bitmap 150 150))
+(define dc (new bitmap-dc% [bitmap target]))
+
+(send dc set-brush "Lightblue" 'solid)
+(send dc draw-rectangle 0 0 150 150)
+
+(send dc set-smoothing 'aligned)
+(send dc set-pen "yellow" 1 'solid)
+(send dc set-brush "yellow" 'solid)
+(send dc draw-ellipse 99 1 50 50)
+
+
+
+(define no-pen (new pen% [style 'transparent]))
+(define no-brush (new brush% [style 'transparent]))
+(define skin-brush (new brush% [color "NavajoWhite"]))
+(define yellow-brush (new brush% [color "yellow"]))
+(define red-brush (new brush% [color "red"]))
+(define red-pen (new pen% [color "red"] [width 2]))
+(define yellow-pen (new pen% [color "yellow"] [width 2]))
+
+
+(define draw-face dc)
+(send dc set-smoothing 'aligned)
+
+(send dc set-pen no-pen)
+(send dc set-brush skin-brush)
+(send dc draw-ellipse 1 49 100 100)
+
+
+(send dc set-pen "black" 2 'solid)
+(send dc draw-arc 25 80 20 20 (* 2 pi) (* 1 pi))
+(send dc draw-arc 58 80 20 20 (* 2 pi) (* 1 pi))
+
+(send dc set-pen no-pen)
+(send dc set-brush red-brush)
+(send dc draw-arc 26 85 50 50 pi (* 2 pi))
+
+
+(define dc2 (new bitmap-dc% [bitmap target]))
+
+(send dc2 set-text-foreground "Brown")
+(send dc2 set-font (make-font #:size 12 
+                              #:weight 'bold))
+(send dc2 draw-text "OPL is fun! JK." 8 30)
+
+;;run here
+target
 ```
 
-### My Library: (library name here)
-Write what you did!
-Remember that this report must include:
- 
-* a narrative of what you did
-* the code that you wrote
-* output from your code demonstrating what it produced
-* any diagrams or figures explaining your work 
- 
-The narrative itself should be no longer than 350 words. Yes, you can add more files and link or refer to them. This is github, handling files is awesome and easy!
+Output:
 
-Ask questions publicly in the Piazza group.
-
-### How to Do and Submit this assignment
-
-1. To start, [**fork** this repository][forking].
-1. Modify the README.md file and [**commit**][ref-commit] changes to complete your solution.
-  2. (This assignment is just one README.md file, so you can edit it right in github without cloning)
-  3. (You may need to clone and push if you want to add extra files)
-1. [Create a **pull request**][pull-request] on the original repository to turn in the assignment.
-
-<!-- Links -->
-[piazza]: https://piazza.com/class/i55is8xqqwhmr?cid=411
-[schedule]: https://piazza.com/class/i55is8xqqwhmr?cid=453
-[markdown]: https://help.github.com/articles/markdown-basics/
-[forking]: https://guides.github.com/activities/forking/
-[ref-clone]: http://gitref.org/creating/#clone
-[ref-commit]: http://gitref.org/basic/#commit
-[ref-push]: http://gitref.org/remotes/#push
-[pull-request]: https://help.github.com/articles/creating-a-pull-request
+It outputs a picture of a little happy guy saying OPL is fun under the sun.
 
